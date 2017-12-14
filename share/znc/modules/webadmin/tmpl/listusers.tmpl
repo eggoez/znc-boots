@@ -1,0 +1,39 @@
+<? INC Header.tmpl ?>
+
+		<?IF !UserLoop?>
+			<div class="alert alert-info">
+				There are no users defined. Click <a href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser">here</a> if you would like to add one.
+			</div>
+		<?ELSE?>
+			
+				<table class="table table-striped table-hover ">
+					<thead>
+					<tr>
+						<td><a class="btn btn-success btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser">Add</a></td>
+						<td>Username</td>
+                        <td>Networks</td>
+						<td>Clients</td>
+					</tr>
+					</thead>
+
+					<tbody>
+			<?LOOP UserLoop SORTASC=Username ?>
+					<tr class="<?IF __EVEN__?>evenrow<?ELSE?>oddrow<?ENDIF?>">
+						<td>
+							<span class="nowrap">
+								<a class="btn btn-primary btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>edituser?user=<?VAR Username ESC=URL?>">Edit</a>
+								<a class="btn btn-primary btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser?clone=<? VAR Username ESC=URL ?>" alt="Clone <? VAR Username ESC=URL ?>">Clone</a>
+								<? IF !IsSelf ?><a class="btn btn-danger btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>deluser?user=<?VAR Username ESC=URL?>">Delete</a><? ENDIF ?>
+							</span>
+						</td>
+						<td><? VAR Username ?></td>
+                        <td><? VAR Networks ?></td>
+						<td><? VAR Clients ?></td>
+					</tr>
+			<?ENDLOOP?>
+					</tbody>
+				</table>
+			
+		<?ENDIF?>
+
+<? INC Footer.tmpl ?>

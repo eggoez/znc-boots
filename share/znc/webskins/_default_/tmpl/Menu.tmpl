@@ -1,0 +1,48 @@
+<li class="topitem<? IF !ModName && PageName == "index" ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?>/">Home</a></li>
+
+		<? IF GlobalModLoop ?>
+		<li class="dropdown">
+		<a data-toggle="dropdown" class="dropdown-toggle goez" href="#">Global Modules<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+				<? LOOP GlobalModLoop SORTASC=ModName ?>
+					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+					<? LOOP SubPageLoop ?>
+						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+					<? ENDLOOP ?>
+				<? ENDLOOP ?>
+				</ul>
+			</li>
+		<? ENDIF ?>
+
+		<? IF UserModLoop ?>
+		<li class="dropdown">
+		<a data-toggle="dropdown" class="dropdown-toggle goez" href="#">User Modules<b class="caret"></b></a>
+			<ul class="dropdown-menu">
+				<? LOOP UserModLoop SORTASC=ModName ?>
+					<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+					<? LOOP SubPageLoop ?>
+						<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+					<? ENDLOOP ?>
+				<? ENDLOOP ?>
+				</ul>
+			</li>
+		<? ENDIF ?>
+
+		<? IF NetworkModLoop ?>
+			<? LOOP NetworkModLoop SORTASC=NetworkName ?>
+				<? IF ModLoop ?>
+				<li class="dropdown">
+				<a data-toggle="dropdown" class="dropdown-toggle goez" href="#">Network Modules (<? VAR NetworkName ?>)<b class="caret"></b></a>
+					<ul class="dropdown-menu">
+						<? LOOP ModLoop SORTASC=ModName ?>
+							<li class="modtitle<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?>"><? VAR Title ?></a></li>
+							<? LOOP SubPageLoop ?>
+								<li class="subitem<? IF Active ?> active<? ENDIF ?>"><a href="<? VAR URIPrefix TOP ?><? VAR ModPath ?><? VAR PageName ?><? IF Params ?>?<? VAR Params ?><? ENDIF ?>"><? VAR Title ?></a></li>
+							<? ENDLOOP ?>
+						<? ENDLOOP ?>
+						</ul>
+					</li>
+				<? ENDIF ?>
+			<? ENDLOOP ?>
+		<? ENDIF ?>
+	
