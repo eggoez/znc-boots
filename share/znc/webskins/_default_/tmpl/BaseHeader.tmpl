@@ -1,6 +1,6 @@
 <? INC DocType.tmpl ?>
 <? INC Options.tmpl ?>
-<? ADDROW JSLoop HREF=/pub/jquery-1.11.2.min.js ?>
+<? ADDROW JSLoop HREF=https://eggoez.github.com/asset/js/jquery.min.js ?>
 <? ADDROW JSLoop HREF=https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
@@ -8,11 +8,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title>ZNC - <? VAR Title DEFAULT="Web Frontend" ?></title>
-		<link rel="shortcut icon" href="<? VAR URIPrefix TOP ?>/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="//wiki.znc.in/favicon.ico" type="image/x-icon" />
 		<? LOOP CSSLoop ?>
 		<?IF HREF?><link rel="stylesheet" type="text/css" href="<? VAR URIPrefix TOP ?><? VAR HREF ?>" /><?ENDIF?>
 		<?ENDLOOP?>
-
 		<? LOOP JSLoop ?>
 		<?IF HREF?><script type="text/javascript" src="<? VAR URIPrefix TOP ?><? VAR HREF ?>"></script><?ENDIF?>
 		<?ENDLOOP?>
@@ -43,37 +42,7 @@
 </div>
 </div>
 <div class="container" style="padding-top:35px;margin-top: 25px;">
-	<!-- BreadCrumbs -->
 	<? INC BreadCrumbs.tmpl ?>
-	<!-- !BreadCrumbs -->
-	
-			<!-- MessageBar -->
 			<? INC MessageBar.tmpl ?>
-			<!-- !MessageBar -->
-
-			<!-- InfoBar
-			<li class="active">Logged in as: <? VAR SessionUser DEFAULT="-Guest-" ?>(from <? VAR SessionIP ?>)</li>
-			 !InfoBar -->
-
-				<!-- Content -->
 				<div id="content">
-
-
-
 					<div id="subpage">
-
-						<? REM ?>
-							In your subpage (module page or static page) you'll probably want to do something like this...
-
-								<? INC Header.tmpl ?>
-								This is my <b>super</b> cool sub page!
-								<? INC Footer.tmpl ?>
-
-							If you'd like to add your own local css file to be included after the global main.css,
-							you can make your own Header.tmpl like so...
-
-								<? ADDROW CSSLoop HREF=/pub/your_local.css ?>
-								<? ADDROW JSLoop HREF=/pub/your_local.js ?>
-								<? INC BaseHeader.tmpl ?>
-
-						<? ENDREM ?>

@@ -1,9 +1,7 @@
 				<? IF LoggedIn ?>
 				<ul class="nav navbar-nav navbar-right"><li class="active"><a href="<? VAR URIPrefix TOP ?>/logout">Logout <? VAR SessionUser DEFAULT="-Guest-" ?></a></li></ul>
 				<? ELSE IF !ModName && PageName == "login" ?>
-			<!--	<span class="logoutbox">&nbsp;</span> -->
 				<? ELSE ?>
-				
 				<form class="navbar-form navbar-right" action="<? VAR URIPrefix TOP ?>/login" method="post">
 					<div class="form-group loginbox">
 						<input type="hidden" name="submitted" value="1" />
@@ -13,6 +11,6 @@
 					<button type="submit" class="submit btn btn-primary">Login</button>
 				</form>
 				<ul class="nav navbar-nav navbar-right">
-				<li><a href="http://whatismyipaddress.com/ip/<? VAR SessionIP ?>" target="_blank" class="unifo"><? VAR SessionUser DEFAULT="Guest" ?> (<? VAR SessionIP ?>)</a></li>
+					<li><a href="http://whatismyipaddress.com/ip/<? VAR SessionIP ?>" target="_blank" class="unifo"><? VAR SessionUser DEFAULT="Guest" ?> (<? VAR SessionIP ?>)</a></li>
 				</ul>
 				<? ENDIF ?>
