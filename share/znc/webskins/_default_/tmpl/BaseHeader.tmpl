@@ -8,7 +8,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<title>ZNC - <? VAR Title DEFAULT="Web Frontend" ?></title>
-		<link rel="shortcut icon" href="//wiki.znc.in/favicon.ico" type="image/x-icon" />
+		<link rel="shortcut icon" href="<? VAR URIPrefix TOP ?>/favicon.ico" type="image/x-icon" />
 		<? LOOP CSSLoop ?>
 		<?IF HREF?><link rel="stylesheet" type="text/css" href="<? VAR URIPrefix TOP ?><? VAR HREF ?>" /><?ENDIF?>
 		<?ENDLOOP?>
