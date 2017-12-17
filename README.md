@@ -1,9 +1,9 @@
 # ZNC Skins
 Awesome ZNC skins build with bootstrap &amp; bootswatch v.3.3.7<br />
-This is NOT an Official skins from ZNC
+This is NOT an Official skins from ZNC<br />
 <b>Use at your own risk. </b>
 
-# Themes
+# 17 Skins Include
 <ul><li>Default (Bootsrap)</li>
 <li>Cerulean</li>
 <li>Cosmo</li>
@@ -25,11 +25,13 @@ This is NOT an Official skins from ZNC
  # Installing
 Move all <code>share</code> folder to your znc share installations
 
-# Tested on ZNC 1.6.5 also work on 1.7 nightly
+# Tested
+ZNC 1.6.5 also work on 1.7 nightly
 
 # Credit
 <a href="//znc.in">ZNC</a>, <a href="https://getbootstrap.com/docs/3.3/">Bootstrap</a>, <a href="https://bootswatch.com/3/">Bootswatch</a>.
 
 # Thanks
-goez from AllNetwork Indonesia
+Nick: goez<br />
+From: AllNetwork Indonesia
 
