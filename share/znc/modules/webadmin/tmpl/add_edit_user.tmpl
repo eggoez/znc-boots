@@ -1,138 +1,157 @@
 <? AddRow CSSLoop HREF=/modfiles/global/webadmin/webadmin.css ?>
 <? INC Header.tmpl ?>
-
-<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?><? IF Edit ?>edituser<? ELSE ?>adduser<? ENDIF ?>" method="post">
+<form class="form-horizontal" action="<? IF Edit ?>edituser<? ELSE ?>adduser<? ENDIF ?>" method="post">
 	<? INC _csrf_check.tmpl ?>
-	<div class="section">
-		<input type="hidden" name="submitted" value="1" />
+	<input type="hidden" name="submitted" value="1" />
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#auth" data-toggle="tab">Authentication</a></li>
+                <li><a href="#ircinfo" data-toggle="#tab">IRC Information</a></li>
+                <li class="hidden-xs"><a href="#networkz" data-toggle="tab">Networks</a></li>
+				<li class="hidden-xs"><a href="#module" data-toggle="tab">Modules</a></li>
+				<li class="hidden-xs hidden-sm"><a href="#setelanpabrik" data-toggle="tab">Default Settings</a></li>
+				<li class="hidden-xs hidden-sm"><a href="#flag" data-toggle="tab">Flags</a></li>
+				<li class="hidden-xs hidden-sm"><a href="#beha" data-toggle="tab">ZNC Behavior</a></li>
+				<!--<li class="hidden-xs hidden-sm"><a href="#modules" data-toggle="tab">Other Modules</a></li>-->
+				<li class="dropdown hidden-lg hidden-md">
+					<a href="#" data-toggle="dropdown">More <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+							<li class="hidden-sm"><a href="#networkz" data-toggle="tab">Networks</a></li>
+							<li class="hidden-sm"><a href="#module" data-toggle="tab">Modules</a></li>
+							<li><a href="#setelanpabrik" data-toggle="tab">Default Settings</a></li>
+							<li><a href="#flag" data-toggle="tab">Flags</a></li>
+							<li><a href="#beha" data-toggle="tab">ZNC Behavior</a></li>
+                           <!-- <li><a href="#modules" data-toggle="tab">Other Modules</a></li>-->
+                        </ul>
+                </li>
+            </ul>
+			<br />
+            <div class="tab-content">
+                <div class="tab-pane fade in active" id="auth">
 
-		<!-- Trick Firefox into NOT autofilling password to "change password" field. It will autofill username and password to these useless fields instead. See issue #1163 -->
-		<input name="userdummy" type="text" style="display: none"/>
-		<input name="passworddummy" type="password" style="display: none"/>
-
-		<h3>Authentication</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection">
-					<div class="inputlabel">Username:</div>
-
+					<div class="form-group">
+					<label for="inputUsername" class="col-sm-2 control-label">Username:</label>
+						<div class="col-md-10">
 						<? IF Clone ?>
-						<input type="hidden" name="clone" value="<? VAR CloneUsername ?>" />
+							<input type="hidden" class="form-control input-sm" id="inputUsername" name="clone" value="<? VAR CloneUsername ?>" autocomplete="off" />
 						<? ENDIF ?>
+
 						<? IF Edit ?>
-						<input type="hidden" name="user" value="<? VAR Username ?>" />
-						<input type="text" name="newuser" value="<? VAR Username ?>" class="half form-control input-sm" maxlength="128" disabled="disabled" />
+							<input type="hidden" class="form-control input-sm" id="inputUsername" name="user" value="<? VAR Username ?>" autocomplete="off" />
+							<input type="text" class="form-control input-sm" id="inputUsername" name="newuser" value="<? VAR Username ?>" disabled="disabled" />
 						<? ELSE ?>
-						<input type="text" name="user" value="<? VAR Username ?>" class="half" maxlength="128"
-							   title="Please enter a username." />
+							<input type="text" class="form-control input-sm" id="inputUsername" name="user" value="<? VAR Username ?>" placeholder="Enter a username" autocomplete="off" />
 						<? ENDIF ?>
+						</div>
+					</div>
 
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Password:</div>
-					<input type="password" name="password" class="half form-control input-sm"
-						   title="Please enter a password." autocomplete="off" />
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Confirm password:</div>
-					<input type="password" name="password2" class="half form-control input-sm"
-						   title="Please re-type the above password." />
-				</div>
-				<div class="subsection half">
-					<div class="inputlabel">Allowed IPs:</div>
-					<textarea class="form-control" name="allowedips" cols="70" rows="5"><? LOOP AllowedHostLoop ?><? VAR Host ?>
-<? ENDLOOP ?>
-</textarea>
-					        <span class="help-block"><span class="info">Leave empty to allow connections from all IPs.<br />
+					<div class="form-group">
+					<label for="inputPassword" class="col-sm-2 control-label">Password:</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control input-sm" id="inputPassword" name="password" placeholder="Please enter a password." autocomplete="off">
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputPassword2" class="col-sm-2 control-label">Confirm Password:</label>
+						<div class="col-sm-10">
+							<input type="password" class="form-control input-sm" id="inputPassword2" name="password2" placeholder="Please re-type the above password.">
+						</div>
+					</div>
+
+
+					<div class="form-group">
+					<label for="inputAllowedIP" class="col-sm-2 control-label">Allowed IPs:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control input-sm" data-provide="markdown" id="inputAllowedIP" name="allowedips" cols="70" rows="5"><? LOOP AllowedHostLoop ?><? VAR Host ?><? ENDLOOP ?></textarea>
+							<span class="help-block"><span class="info">Leave empty to allow connections from all IPs.<br />
 					Otherwise, one entry per line, wildcards * and ? are available.</span>
+						</div>
+					</div>
 				</div>
-				<div style="clear: both;"></div>
-			</div>
-		</div>
-	</div>
-
-	<div class="section">
-		<h3>IRC Information</h3>
-		<? IF !Edit ?>
-		<span class="info">Nick, AltNick, Ident, RealName and QuitMsg can be left empty to use default values.</span>
-		<? ENDIF ?>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection">
-					<div class="inputlabel">Nickname:</div>
-					<input type="text" name="nick" value="<? VAR Nick ?>" class="half form-control" maxlength="128"
-						   title="This will be your nickname on IRC." />
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Alt. Nickname:</div>
-					<input type="text" name="altnick" value="<? VAR AltNick ?>" class="half form-control" maxlength="128"
-						   title="If the nickname above is not available anymore, then this will be your nickname on IRC." />
-				</div>
-				<div style="clear: both;"></div>
-				<div class="subsection">
-					<div class="inputlabel">Ident:</div>
-					<input type="text" name="ident" value="<? VAR Ident ?>" class="half form-control" maxlength="128"
-						   title="The Ident identifies you as one specific user of your host." />
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">StatusPrefix:</div>
-					<input type="text" name="statusprefix" value="<? VAR StatusPrefix ?>" class="half form-control" maxlength="5"
-						   title="This defines the prefix for the status and module queries." />
-				</div>
-				<div style="clear: both;"></div>
-				<div class="subsection">
-					<div class="inputlabel">Realname:</div>
-					<input type="text" name="realname" value="<? VAR RealName ?>" class="full form-control" maxlength="256"
-						   title="The real name of the user." />
-				</div>
-				<div style="clear: both;"></div>
-
-				<? IF BindHostEdit ?>
-				<div class="subsection">
-					<div class="inputlabel">BindHost:</div>
-					<? IF BindHostLoop ?>
-						<select name="bindhost" class="form-control" id="select">
-							<option value="">- Default -</option>
-							<? LOOP BindHostLoop ?><option value="<? VAR BindHost ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? VAR BindHost ?></option><? ENDLOOP ?>
-						</select>
-					<? ELSE ?>
-						<input type="text" name="bindhost" value="<? VAR BindHost ?>"/>
-					<? ENDIF ?>
-				</div>
-				<div style="clear: both;"></div>
-
-				<div class="subsection">
-					<div class="inputlabel">DCCBindHost:</div>
-					<? IF DCCBindHostLoop ?>
-						<select name="dccbindhost" class="form-control" id="select">
-							<option value="">- Default -</option>
-							<? LOOP DCCBindHostLoop ?><option value="<? VAR BindHost ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? VAR BindHost ?></option><? ENDLOOP ?>
-						</select>
-					<? ELSE ?>
-						<input type="text" name="dccbindhost" value="<? VAR DCCBindHost ?>"/>
-					<? ENDIF ?>
-				</div>
-				<div style="clear: both;"></div>
+				<div class="tab-pane fade" id="ircinfo">
+ 				<? IF !Edit ?>
+				<span class="info">Nick, AltNick, Ident, RealName and QuitMsg can be left empty to use default values.</span>
 				<? ENDIF ?>
 
-				<div class="subsection">
-					<div class="inputlabel">Quit Message:</div>
-					<input type="text" name="quitmsg" value="<? VAR QuitMsg ?>" class="full form-control" maxlength="256"
-						   title="You may define a Message shown, when you quit IRC." />
-				</div>
-				<div style="clear: both;"></div>
-			</div>
-		</div>
-	</div>
+					<div class="form-group">
+					<label for="inputNickname" class="col-sm-2 control-label">Nickname:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputNickname" name="nick" value="<? VAR Nick ?>" maxlength="30" placeholder="This will be your nickname on IRC.">
+						</div>
+					</div>
 
-	<div class="section">
-		<h3>Networks</h3>
-		<? IF Edit ?>
+					<div class="form-group">
+					<label for="inputaltNickname" class="col-sm-2 control-label">Alt. Nickname</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputaltNickname" name="altnick" value="<? VAR AltNick ?>" maxlength="128" placeholder="If the nickname above is not available anymore, then this will be your nickname on IRC.">
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputIdent" class="col-sm-2 control-label">Ident:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputIdent" name="ident" value="<? VAR Ident ?>" maxlength="128" placeholder="The Ident identifies you as one specific user of your host.">
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputStatusPrefix" class="col-sm-2 control-label">StatusPrefix:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputStatusPrefix" name="statusprefix" value="<? VAR StatusPrefix ?>" maxlength="5" placeholder="This defines the prefix for the status and module queries.">
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputRealname" class="col-sm-2 control-label">Realname:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputRealname" name="realname" value="<? VAR RealName ?>" maxlength="256" placeholder="The real name of the user.">
+						</div>
+					</div>
+
+					<? IF BindHostEdit ?>
+					<div class="form-group">
+					<label for="inputBindHost" class="col-sm-2 control-label">BindHost:</label>
+						<div class="col-sm-10">
+						<? IF BindHostLoop ?>
+							<select class="form-control input-sm" id="inputBindHost" name="bindhost">
+								<option>Default</option>
+								<? LOOP BindHostLoop ?><option value="<? VAR BindHost ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? VAR BindHost ?></option><? ENDLOOP ?>
+							</select>
+						<? ELSE ?>
+							<input class="form-control input-sm" type="text" name="bindhost" value="<? VAR BindHost ?>"/>
+						<? ENDIF ?>
+						</div>
+					</div>
+					<? ENDIF ?>
+
+					<div class="form-group">
+					<label for="inputDCCBindHost" class="col-sm-2 control-label">DCCBindHost:</label>
+						<div class="col-sm-10">
+						<? IF DCCBindHostLoop ?>
+							<select class="form-control input-sm" id="inputDCCBindHost" name="dccbindhost">
+								<option>Default</option>
+								<? LOOP DCCBindHostLoop ?><option value="<? VAR BindHost ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? VAR BindHost ?></option><? ENDLOOP ?>
+							</select>
+						<? ELSE ?>
+							<input type="text" class="form-control input-sm" name="dccbindhost" value="<? VAR DCCBindHost ?>"/>
+						<? ENDIF ?>
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputQuit" class="col-sm-2 control-label">Quit Message:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputQuit" name="quitmsg" value="<? VAR QuitMsg ?>" maxlength="256" placeholder="You may define a Message shown, when you quit IRC.">
+						</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="networkstab">
+				<? IF Edit ?>
 		<div class="sectionbg">
 			<div class="sectionbody">
-				<table class="table table-striped table-hover ">
+				<table class="table table-striped table-hover">
 					<thead>
-					<tr>
+					<tr class="info">
 						<td><a class="btn btn-success btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>addnetwork?user=<? VAR Username ESC=URL ?>">Add</a></td>
 				<? IF NetworkLoop ?>
 						<td>Name</td>
@@ -165,198 +184,211 @@
 		<? ELSE ?>
 		<span class="info">You will be able to add + modify networks here after you <? IF Clone ?>have cloned<? ELSE ?>created<? ENDIF ?> the user.</span><br />
 		<? ENDIF ?>
-	</div>
-
-	<div class="section">
-		<h3>Modules</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<table class="table table-striped table-hover ">
+				</div>
+				<div class="tab-pane fade" id="module">
+				<table class="table table-hover table-striped">
 					<thead>
-					<tr class="active">
-						<td>Name</td>
-						<td>Arguments</td>
-						<td>Description</td>
-						<td>Globally</td>
-						<td>Networks</td>
-					</tr>
+						<tr class="info">
+							<td>Status</td>
+							<td>Name</td>
+							<td>Arguments</td>
+							<td>Description</td>
+							<td>Globaly</td>
+							<td>Networks</td>
+						</tr>
 					</thead>
 					<tbody>
-
-				<? LOOP ModuleLoop ?>
-					<tr class="<? IF __EVEN__ ?>evenrow<? ELSE ?>oddrow<? ENDIF ?>">
-						<td class="mod_name">
-							<input type="checkbox" name="loadmod" id="lm_<? VAR Name ?>" value="<? VAR Name ?>"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> /> <label for="lm_<? VAR Name ?>"> <? IF Wiki ?><a href="http://wiki.znc.in/<? VAR Wiki ?>" target="_blank"><? VAR Name ?></a> <? ELSE ?> <? VAR Name ?> <? ENDIF ?></label>
-						</td>
-						<td class="mod_args">
-							<? IF Disabled ?>
-							<? VAR Args ?>
-							<? ELSE ?>
-							<input class="third form-control input-sm" type="text" name="modargs_<? VAR Name ?>" value="<? VAR Args ?>"
-							<? IF !HasArgs ?> disabled="disabled"<? ENDIF ?>
-							<? IF ArgsHelpText ?> title="<? VAR ArgsHelpText ?>"<? ENDIF ?> />
-							<? ENDIF ?>
-						</td>
-						<td class="mod_descr"><? VAR Description ?></td>
-						<td align="center">
-							<? IF CanBeLoadedGlobally ?>
-								<input type="checkbox" name="loaded_globally" id="loaded_globally_<? VAR Name ?>"
-								<? IF LoadedGlobally ?>
-									checked="checked"
+						<? LOOP ModuleLoop ?>
+						<tr>
+							<td>
+								<div class="cbs">
+									<input type="checkbox" name="loadmod" id="lm_<? VAR Name ?>" value="<? VAR Name ?>" class="cmn-toggle cmn-toggle-round-flat" value="<? VAR Name ?>"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
+									<label for="lm_<? VAR Name ?>"></label>
+								</div>
+							</td>
+							<td>
+								<label for="lm_<? VAR Name ?>"> <? IF Wiki ?><a href="http://wiki.znc.in/<? VAR Wiki ?>" target="_blank"><? VAR Name ?></a> <? ELSE ?> <? VAR Name ?> <? ENDIF ?></label>
+							</td>
+							<td>
+								<? IF Disabled ?>
+								<? VAR Args ?>
+								<? ELSE ?>
+								<input class="third form-control input-sm" type="text" name="modargs_<? VAR Name ?>" value="<? VAR Args ?>"
+								<? IF !HasArgs ?> disabled="disabled"<? ENDIF ?>
+								<? IF ArgsHelpText ?> data-toggle="tooltip" data-placement="top" data-original-title="<? VAR ArgsHelpText ?>"<? ENDIF ?> />
 								<? ENDIF ?>
-								disabled="disabled"/>
-							<? ENDIF ?>	
-						</td>
-						<td align="center">
-							<? IF CanBeLoadedByNetwork ?>
-								<input type="checkbox" name="loaded_by_network" id="loaded_by_net_<? VAR Name ?>"
-								<? IF LoadedBySomeNetworks && LoadedByAllNetworks ?>
-									checked="checked"
+							</td>
+							<td><? VAR Description ?></td>
+							<td>
+								<? IF CanBeLoadedGlobally ?>
+									<div class="checkboxcbsMini">
+										<input type="checkbox" name="loaded_globally" id="loaded_globally_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedGloabally?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" /> <? ENDIF ?>
+										<label for="loaded_globally_<? VAR Name ?>"></label>
+									</div>
 								<? ENDIF ?>
-								disabled="disabled"/>
-								<? IF LoadedBySomeNetworks && !LoadedByAllNetworks ?>
-									<script type="text/javascript">
-										document.getElementById("loaded_by_net_<? VAR Name ?>").indeterminate = true;
-									</script>
+							</td>
+							<td>
+								<? IF CanBeLoadedByNetwork ?>
+									<div class="checkboxcbsMini">
+										<input type="checkbox" name="loaded_by_network" id="loaded_by_net_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedByAllNetworks ?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" /> <? ENDIF ?>
+										<label for="loaded_by_net_<? VAR Name ?>"></label>
+									</div>
+									<? IF LoadedBySomeNetworks && !LoadedByAllNetworks ?>
+										<script type="text/javascript">document.getElementById("loaded_by_net_<? VAR Name ?>").indeterminate = true;</script>
 								<? ENDIF ?>
-							<? ENDIF ?>
-						</td>
-					</tr>
-				<? ENDLOOP ?>
-
+							</td>
+						</tr>
+					<? ENDLOOP ?>
 					</tbody>
 				</table>
-			</div>
-		</div>
-	</div>
+				</div>
+				<div class="tab-pane fade" id="setelanpabrik">
+					<div class="form-group">
+					<label for="inputModes" class="col-sm-2 control-label">Channel Modes:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputModes" name="chanmodes" value="<? VAR DefaultChanModes ?>" maxlength="32" placeholder="These are the default modes ZNC will set when you join an empty channel.">
+							<span class="help-block">Empty = use standard value</span>
+						</div>
+					</div>
 
-	<div class="section">
-		<h3>Default Settings</h3>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection third">
-					<div class="inputlabel">Channel Modes:</div>
-					<input class="form-control" type="text" name="chanmodes" value="<? VAR DefaultChanModes ?>" maxlength="32"
-						   title="These are the default modes ZNC will set when you join an empty channel." />
-					<span class="help-block">Empty = use standard value</span>
-				</div>
-				<div class="subsection third">
-					<div class="inputlabel">Buffer Size:</div>
-					<input class="form-control" type="number" name="bufsize" value="<? VAR BufferCount ?>" min="0"
-						   title="This is the amount of lines that the playback buffer will store before dropping off the oldest line. The buffers are stored in the memory by default." />
-					<span class="help-block">Empty = use standard value</span>
-				</div>
-			</div>
-		</div>
-	</div>
+					<div class="form-group">
+					<label for="inputBufferSize" class="col-sm-2 control-label">Buffer Size:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputBufferSize" name="bufsize" value="<? VAR BufferCount ?>" min="0" placeholder="This is the amount of lines that the playback buffer will store before dropping off the oldest line. The buffers are stored in the memory by default." />
+							<span class="help-block">Empty = use standard value</span>
+						</div>
+					</div>
+				</div> 
+				<div class="tab-pane fade" id="flag">
+						<table class="table table-hover table-striped">
+							<thead>
+								<tr class="info">
+									<td>Status</td>
+									<td>Flags</td>
+								</tr>
+							</thead>
+							<tbody>
+								<? LOOP OptionLoop ?>
+								<tr>
+									<td>
+										<div class="cbs">
+											<input type="checkbox" name="<? VAR Name ?>" id="opt_<? VAR Name ?>" class="cmn-toggle cmn-toggle-round-flat" value="1"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
+											<label for="opt_<? VAR Name ?>"></label>
+										</div>
+									</td>
+									<td><b><? VAR DisplayName ?></b></td>
+								</tr>
+								<? ENDLOOP ?>
+								<div style="clear:both;"></div>
+							</tbody>
+						</table> 
+				</div> 
+				<div class="tab-pane fade" id="beha">
+				<div class="alert alert-info alert-dismissible help-block">Any of the following text boxes can be left empty to use their default value.
+					<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></div>
+					<div class="form-group">
+					<label for="inputtimeFormat" class="col-sm-2 control-label">Timestamp Format:</label>
+						<div class="col-sm-10">
+							<input type="text" class="form-control input-sm" id="inputtimeFormat" name="timestampformat" value="<? VAR TimestampFormat ?>" placeholder="The format for the timestamps used in buffers, for example [%H:%M:%S]." />
+							<span class="help-block">This setting is ignored in new IRC clients, which use server-time. If your client supports server-time, change timestamp format in client settings instead.</span>
+						</div>
+					</div>
 
-	<div class="section">
-		<h3>Flags</h3>
-		<div class="sectionbg">
-			<div class="sectionbody lotsofcheckboxes">
-				<? LOOP OptionLoop ?>
-				<span class="checkboxandlabel" title="<? VAR Tooltip ?>">
-					<input type="checkbox" name="<? VAR Name ?>" id="opt_<? VAR Name ?>" value="1"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
-					<label for="opt_<? VAR Name ?>"><? VAR DisplayName ?></label>
-				</span>
-				<? ENDLOOP ?>
-				<div style="clear:both;"></div>
-			</div>
-		</div>
-	</div>
+					<div class="form-group">
+					<label for="inputTimezone" class="col-sm-2 control-label">Timezone:</label>
+						<div class="col-sm-10">
+							<input class="form-control input-sm" id="inputTimezone" name="timezone" value="<? VAR Timezone ?>" placeholder="Select your timezone.">
+							<span class="help-block">E.g. <code>Asia/Jakarta</code>, or <code>GMT+7</code></span>
+						</div>
+					</div>
 
-	<div class="section">
-		<h3>ZNC Behavior</h3>
-		<span class="help-block">Any of the following text boxes can be left empty to use their default value.</span>
-		<div class="sectionbg">
-			<div class="sectionbody">
-				<div class="subsection">
-					<div class="inputlabel">Timestamp Format:</div>
-					<input type="text" name="timestampformat" value="<? VAR TimestampFormat ?>" class="full form-control"
-						   title="The format for the timestamps used in buffers, for example [%H:%M:%S]. This setting is ignored in new IRC clients, which use server-time. If your client supports server-time, change timestamp format in client settings instead." />
-				</div>
-				<div class="subsection half">
-					<div class="inputlabel">Timezone:</div>
-					<input type="text" name="timezone" value="<? VAR Timezone ?>" list="timezone_list"
-						   title="Select your timezone." class="form-control" />
-					<span class="help-block">E.g. <code>Europe/Berlin</code>, or <code>GMT-6</code></span>
-					<datalist id="timezone_list">
-						<? LOOP TZLoop ?>
-						<option value="<? VAR TZ ?>"/>
-						<? ENDLOOP ?>
-					</datalist>
-				</div>
-				<div style="clear:both;"></div>
-				<div class="subsection" title="Character encoding used between IRC client and ZNC.">
-					<div class="inputlabel">Client encoding:</div>
-					<? INC encoding_settings.tmpl ?>
-				</div>
-				<div style="clear:both;"></div>
-				<div class="subsection">
-					<div class="inputlabel">Join Tries:</div>
-					<input class="form-control" type="number" name="jointries" value="<? VAR JoinTries ?>" class="third" min="0"
-						   title="This defines how often ZNC tries to join, if the first join failed, e.g. due to channel mode +i/+k or if you're banned." />
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Max Joins:</div>
-					<input class="form-control" type="number" name="maxjoins" value="<? VAR MaxJoins ?>" class="third" min="0"
-					       title="How many channels are joined in one JOIN command. 0 is unlimited (default). Set to small positive value if you get disconnected with `Max SendQ Exceeded'"/>
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Max IRC Networks Number:</div>
-					<input class="form-control" type="number" name="maxnetworks" value="<? VAR MaxNetworks ?>" class="third" min="0"
-					       title="Maximum number of IRC networks allowed for this user." <? IF !ImAdmin ?>disabled="disabled"<? ENDIF ?> />
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Max Query Buffers:</div>
-					<input class="form-control"type="number" name="maxquerybuffers" value="<? VAR MaxQueryBuffers ?>" class="third" min="0"
-					       title="Maximum number of query buffers. 0 is unlimited."/>
-				</div>
-				<div class="subsection half">
-					<div class="inputlabel">CTCP Replies:</div>
-					<div><textarea class="form-control" name="ctcpreplies" cols="70" rows="3"><? LOOP CTCPLoop ?><? VAR CTCP ?>
-<? ENDLOOP ?>
-</textarea></div>
+
+					<div class="form-group">
+					<label for="inputClientencode" class="col-sm-2 control-label">Client encoding:</label>
+						<div class="col-sm-10">
+							<? INC encoding_settings.tmpl ?>
+							<span class="help-block">Character encoding used between IRC client and ZNC. After changing this, reconnect client to ZNC</span>
+						</div>
+					</div>
+
+
+
+					<div class="form-group">
+					<label for="inputJoinTries" class="col-sm-2 control-label">Join Tries:</label>
+						<div class="col-sm-10">
+							<input class="form-control input-sm" type="number" id="inputJoinTries" name="jointries" value="<? VAR JoinTries ?>" min="0" placeholder="This defines how often ZNC tries to join, if the first join failed, e.g. due to channel mode +i/+k or if you're banned."/>
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputMaxJoins" class="col-sm-2 control-label">Max Joins:</label>
+						<div class="col-sm-10">
+							<input class="form-control input-sm" type="number" id="inputMaxJoins" name="maxjoins" value="<? VAR MaxJoins ?>" min="0" placeholder="How many channels are joined in one JOIN command. 0 is unlimited (default). Set to small positive value if you get disconnected with `Max SendQ Exceeded'"/>
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputmaxIRCnet" class="col-sm-2 control-label">Max IRC Networks Number:</label>
+						<div class="col-sm-10">
+							<input class="form-control input-sm" type="number" id="inputmaxIRCnet" name="maxnetworks" value="<? VAR MaxNetworks ?>" min="0" placeholder="Maximum number of IRC networks allowed for this user." <? IF !ImAdmin ?>disabled="disabled"<? ENDIF ?> />
+						</div>
+					</div>
+
+					<div class="form-group">
+					<label for="inputmaxQueryBuffers" class="col-sm-2 control-label">Max Query Buffers:</label>
+						<div class="col-sm-10">
+							<input class="form-control input-sm" type="number" id="inputmaxQueryBuffers" name="maxquerybuffers" value="<? VAR MaxQueryBuffers ?>" class="third" min="0" placeholder="Maximum number of query buffers. 0 is unlimited."/>
+						</div>
+					</div>
+					<div class="form-group">
+					<label for="inputCTCPreplies" class="col-sm-2 control-label">CTCP Replies:</label>
+						<div class="col-sm-10">
+							<textarea class="form-control input-sm" id="inputCTCPreplies" name="ctcpreplies" cols="70" rows="3"><? LOOP CTCPLoop ?><? VAR CTCP ?>
+<? ENDLOOP ?></textarea>
+							
 					<span class="help-block">One reply per line. Example: TIME Buy a watch!</span>
 					<span class="help-block"><a href="http://wiki.znc.in/ExpandString" target="_blank" class="external">Substitutions</a> are available</span>
-				</div>
-				<div class="subsection">
-					<div class="inputlabel">Skin:</div>
+						</div>
+					</div>
 
-						<? IF SkinLoop ROWS > 1 ?>
-						<select name="skin" class="form-control">
-							<option value="">- Global -</option>
-							<? LOOP SkinLoop ?>
-							<option value="<? VAR Name ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? IF Name == "_default_" ?>Default<? ELSE ?><? VAR Name ?><? ENDIF ?></option>
-							<? ENDLOOP ?>
-						</select>
-						<? ELSE ?>
-						No other skins found
-						<? ENDIF ?>
-					<br />
+					<div class="form-group">
+					<label for="inputSkins" class="col-sm-2 control-label">Skin(s):</label>
+						<div class="col-sm-10">
+							<? IF SkinLoop ROWS > 1 ?>
+							<select class="form-control input-sm" name="skin">
+								<option value="">- Global -</option>
+									<? LOOP SkinLoop ?>
+										<option value="<? VAR Name ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? IF Name == "_default_" ?>Default<? ELSE ?><? VAR Name ?><? ENDIF ?></option>
+									<? ENDLOOP ?>
+							</select>
+							<? ELSE ?>
+							<p>No other skins found!</p>
+							<? ENDIF ?>
+						</div>
+					</div>
 				</div>
-				<div style="clear: both;"></div>
+				<div class="tab-pane fade" id="modules">
+				<? LOOP EmbeddedModuleLoop ?>
+					<? IF Embed ?>
+					<div class="form-group">
+					<label for="input<? VAR ModName ?>" class="col-sm-2 control-label"><? VAR ModName ?>:</label>
+						<div class="col-sm-10">
+							<? INC *Embed ?>
+						</div>
+					</div>
+					<? ENDIF ?>
+				<? ENDLOOP ?>
+				</div>
+
 			</div>
-		</div>
-	</div>
-
-	<? LOOP EmbeddedModuleLoop ?>
-		<? IF Embed ?>
-		<div class="section">
-			<h3>Module <? VAR ModName ?></h3>
-			<? INC *Embed ?>
-		</div>
-		<? ENDIF ?>
-	<? ENDLOOP ?>
-
-	<div class="submitline">
-		<? IF ImAdmin ?>
-		<input class="btn btn-primary" type="submit" name="submit_return" value="<? IF Edit ?>Save<? ELSE ?><? IF Clone ?>Clone<? ELSE ?>Create<? ENDIF ?><? ENDIF ?> and return" />
+				<div class="text-right">
+				<? IF ImAdmin ?>
+					<input class="btn btn-danger" type="reset" value="Reset">
+					<input class="btn btn-primary" type="submit" name="submit_return" value="<? IF Edit ?>Save<? ELSE ?><? IF Clone ?>Clone<? ELSE ?>Create<? ENDIF ?><? ENDIF ?> and return" />
 		<input class="btn btn-default" type="submit" name="submit_continue" value="<? IF Edit ?>Save<? ELSE ?><? IF Clone ?>Clone<? ELSE ?>Create<? ENDIF ?><? ENDIF ?> and continue" />
 		<? ELSE ?>
 		<input class="btn btn-primary" type="submit" value="<? IF Edit ?>Save<? ELSE ?><? IF Clone ?>Clone<? ELSE ?>Create<? ENDIF ?><? ENDIF ?>" />
 		<? ENDIF ?>
-	</div>
-</form>
-
+				</div>
+ </form>
 <? INC Footer.tmpl ?>
