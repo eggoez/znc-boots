@@ -4,10 +4,10 @@
 	<? INC _csrf_check.tmpl ?>
 	<input type="hidden" name="submitted" value="1" />
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#auth" data-toggle="tab">Authentication</a></li>
-                <li><a href="#ircinfo" data-toggle="#tab">IRC Information</a></li>
-                <li class="hidden-xs"><a href="#networkz" data-toggle="tab">Networks</a></li>
-				<li class="hidden-xs"><a href="#module" data-toggle="tab">Modules</a></li>
+                <li class="hidden-xs hidden-sm active"><a href="#auth" data-toggle="tab">Authentication</a></li>
+                <li class="hidden-xs hidden-sm"><a href="#ircinfo" data-toggle="tab">IRC Information</a></li>
+                <li class="hidden-xs hidden-sm"><a href="#networkz" data-toggle="tab">Networks</a></li>
+				<li class="hidden-xs hidden-sm"><a href="#module" data-toggle="tab">Modules</a></li>
 				<li class="hidden-xs hidden-sm"><a href="#setelanpabrik" data-toggle="tab">Default Settings</a></li>
 				<li class="hidden-xs hidden-sm"><a href="#flag" data-toggle="tab">Flags</a></li>
 				<li class="hidden-xs hidden-sm"><a href="#beha" data-toggle="tab">ZNC Behavior</a></li>
@@ -17,10 +17,10 @@
                         <ul class="dropdown-menu" role="menu">
 							<li class="hidden-sm"><a href="#networkz" data-toggle="tab">Networks</a></li>
 							<li class="hidden-sm"><a href="#module" data-toggle="tab">Modules</a></li>
-							<li><a href="#setelanpabrik" data-toggle="tab">Default Settings</a></li>
-							<li><a href="#flag" data-toggle="tab">Flags</a></li>
-							<li><a href="#beha" data-toggle="tab">ZNC Behavior</a></li>
-                           <!-- <li><a href="#modules" data-toggle="tab">Other Modules</a></li>-->
+							<li class="hidden-sm"><a href="#setelanpabrik" data-toggle="tab">Default Settings</a></li>
+							<li class="hidden-sm"><a href="#flag" data-toggle="tab">Flags</a></li>
+							<li class="hidden-sm"><a href="#beha" data-toggle="tab">ZNC Behavior</a></li>
+                           <!-- <li class="hidden-sm"><a href="#modules" data-toggle="tab">Other Modules</a></li>-->
                         </ul>
                 </li>
             </ul>
@@ -145,7 +145,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="networkstab">
+				<div class="tab-pane fade" id="networkz">
 				<? IF Edit ?>
 		<div class="sectionbg">
 			<div class="sectionbody">
