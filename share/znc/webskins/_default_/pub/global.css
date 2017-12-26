@@ -2,4 +2,4 @@
 This CSS will be read for all skins
 by eggoez https://eggoez.github.com
 */
-.navbar-login{width:305px;padding:10px 10px 0}.navbar-login-session{padding:0 10px}.icon-size{font-size:87px}
+.navbar-login{width:305px;padding:10px 10px 0}.navbar-login-session{padding:0 10px}.icon-size{font-size:87px}input[type=checkbox]{visibility:hidden}.cbs,.cbs2{position:relative}.cbs label{width:20px;height:20px}.cbs label,.cbs2 label{display:block;border-radius:100px;-webkit-transition:all .5s ease;-moz-transition:all .5s ease;-o-transition:all .5s ease;-ms-transition:all .5s ease;transition:all .5s ease;cursor:pointer;position:absolute;top:5px;left:5px;z-index:1;background:0 0;-webkit-box-shadow:inset 0 1px 3px rgba(0,0,0,.5);-moz-box-shadow:inset 0 1px 3px rgba(0,0,0,.5);box-shadow:inset 0 1px 3px rgba(0,0,0,.5)}.cbs2 label{width:13px;height:13px}.cbs input[type=checkbox]:checked+label,.cbs2 input[type=checkbox]:checked+label{background:lime}
