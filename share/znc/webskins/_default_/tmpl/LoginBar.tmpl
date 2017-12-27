@@ -1,5 +1,5 @@
 				<? IF LoggedIn ?>
-				<ul class="nav navbar-nav navbar-right">
+				<ul class="nav navbar-nav navbar-right hidden-xs hidden-md hidden-sm">
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <? VAR SessionUser ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
@@ -36,9 +36,9 @@
                     </ul>
 					</li>
 					</ul>
-				<!--
-				<ul class="nav navbar-nav navbar-right"><li class="active"><a href="<? VAR URIPrefix TOP ?>/logout">Logout <? VAR SessionUser DEFAULT="-Guest-" ?></a></li></ul>
-				-->
+
+				<ul class="nav navbar-nav navbar-right hidden-lg"><li class="active"><a href="<? VAR URIPrefix TOP ?>/logout">Logout <? VAR SessionUser DEFAULT="-Guest-" ?></a></li></ul>
+				
 				<? ELSE IF !ModName && PageName == "login" ?>
 			<!--	<span class="logoutbox">&nbsp;</span> -->
 				<? ELSE ?>
