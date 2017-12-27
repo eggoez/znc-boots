@@ -1,6 +1,6 @@
 # ZNC Skins
 Awesome ZNC skins build with bootstrap &amp; bootswatch v.3.3.7<br />
-This is NOT an Official skins from ZNC<br />
+This is <u>NOT</u> an Official skins from ZNC<br />
 <b>Use at your own risk. </b>
 
 # 17 Skins Include
@@ -26,12 +26,12 @@ This is NOT an Official skins from ZNC<br />
 Move all <code>share</code> folder to your znc share installations
 
 # Tested
-ZNC 1.6.5 also work on 1.7 nightly
+ZNC 1.4, 1.6.5 also work on 1.7 nightly
 
 # Credit
 <a href="//znc.in">ZNC</a>, <a href="https://getbootstrap.com/docs/3.3/">Bootstrap</a>, <a href="https://bootswatch.com/3/">Bootswatch</a>.
 
 # Thanks
 Nick: goez<br />
-From: AllNetwork Indonesia
+From: AllNetwork Indonesia (/s -m irc.allnetwork.org:6667 -j#ciut)
 

@@ -26,34 +26,24 @@
 							<td><? VAR Port ?></td>
 							<td><? VAR BindHost DEFAULT=** ?></td>
 							<td>
-							<div class="cbs2">
 								<input type="checkbox" disabled="disabled" id="<? VAR IsSSL ?>" <? IF IsSSL ?>checked="checked"<? ENDIF ?>/>
 								<label for="<? VAR IsSSL ?>"></label>
-							</div>
 							</td>
 							<td>
-							<div class="cbs2">
 								<input type="checkbox" disabled="disabled" id="<? VAR IsIPV4 ?>" <? IF IsIPV4 ?>checked="checked"<? ENDIF ?>/>
 								<label for="<? VAR IsIPV4 ?>"></label>
-							</div>
 							</td>
 							<td>
-							<div class="cbs2">
 								<input type="checkbox" id="<? VAR IsIPV6 ?>" disabled="disabled" <? IF IsIPV6 ?>checked="checked"<? ENDIF ?>/>
-								<label for="<? VAR IsIPV6 ?>"></label>
-							</div>
+								<label for="<? VAR IsIPV6 ?>">
 							</td>
 							<td>
-							<div class="cbs2">
 								<input type="checkbox" id="<? VAR IsIRC ?>" disabled="disabled" <? IF IsIRC ?>checked="checked"<? ENDIF ?>/>
-								<label for="<? VAR IsIRC ?>"></label>
-							</div>
+								<label for="<? VAR IsIRC ?>">
 							</td>
 							<td>
-							<div class="cbs2">
 								<input type="checkbox" id="<? VAR IsWeb ?>" disabled="disabled" <? IF IsWeb ?>checked="checked"<? ENDIF ?>/>
-								<label for="<? VAR IsWeb ?>"></label>
-							</div>
+								<label for="<? VAR IsWeb ?>">
 							</td>
 							<td><? VAR URIPrefix ?></td>
 							<td>
@@ -74,40 +64,30 @@
 							<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>add_listener" method="post">
 								<? INC _csrf_check.tmpl ?>
 								<td>
-									<input type="number" class="form-control input-sm" name="port" min="1" max="65535" class="number" maxlength="5" placeholder="Port 1 to 65535"/>
+									<input type="number" name="port" min="1" max="65535" class="number form-control input-sm" maxlength="5" placeholder="Port 1 to 65535"/>
 								</td>
 								<td>
 									<input type="text" class="form-control input-sm" name="host" value="*"/>
 								</td>
 								<td>
-									<div class="cbs2">
 										<input type="checkbox" id="ssl"/>
 										<label for="ssl"></label>
-									</div>
 								</td>
 								<td>
-									<div class="cbs2">
 										<input type="checkbox" id="ipv4" name="ipv4" checked="checked"/>
 										<label for="ipv4"></label>
-									</div>
 								</td>
 								<td>
-									<div class="cbs2">
 										<input type="checkbox" id="ipv6" name="ipv6" checked="checked"/>
 										<label for="ipv6"></label>
-									</div>
 								</td>
 								<td>
-									<div class="cbs2">
 										<input type="checkbox" id="irc" name="irc" checked="checked"/>
 										<label for="irc"></label>
-									</div>
 								</td>
 								<td>
-									<div class="cbs2">
 										<input type="checkbox" id="web" name="web" checked="checked"/>
 										<label for="web"></label>
-									</div>
 								</td>
 								<td><input type="text" class="form-control input-sm" name="uriprefix" value="/"></td>
 								<td><input type="submit" class="btn btn-primary btn-xs" value="Add"/></td>
@@ -169,22 +149,19 @@
 						<div class="form-group">
 						<label for="inputprotectWeb" class="col-sm-2 control-label">Protect Web Sessions:</label>
 							<div class="col-sm-10">
-								<div class="cbs">
+								
 									<input type="checkbox" name="protectwebsessions" id="protectwebsessions_checkbox" class="cmn-toggle cmn-toggle-round-flat"<? IF ProtectWebSessions ?> checked="checked"<? ENDIF ?> />
-									<label for="protectwebsessions_checkbox" title="Disallow IP changing during each web session"></label>
+									<label for="protectwebsessions_checkbox">Disallow IP changing during each web session</label>
 									<span class="help-block hidden">Disallow IP changing during each web session</span>
-								</div>
+								
 							</div>
 						</div>
  
 						<div class="form-group">
 						<label for="inputhideversion" class="col-sm-2 control-label">Hide ZNC Version:</label>
 							<div class="col-sm-10">
-								<div class="cbs">
 									<input type="checkbox" name="hideversion" id="hideversion_checkbox" class="cmn-toggle cmn-toggle-round-flat"<? IF HideVersion ?> checked="checked"<? ENDIF ?> />
-									<label for="hideversion_checkbox" title="Hide version number from non-ZNC users" ></label>
-									<span class="help-block hidden">Hide version number from non-ZNC users</span>
-								</div>
+									<label for="hideversion_checkbox">Hide version number from non-ZNC users</label>
 							</div>
 						</div>
  
@@ -224,10 +201,8 @@
 							<? LOOP ModuleLoop ?>
 							<tr class="<? IF __EVEN__ ?>evenrow<? ELSE ?>oddrow<? ENDIF ?>">
 								<td>
-									<div class="cbs">
 										<input type="checkbox" name="loadmod" id="lm_<? VAR Name ?>" class="cmn-toggle cmn-toggle-round-flat" value="<? VAR Name ?>"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
 										<label for="lm_<? VAR Name ?>"></label>
-									</div>
 								</td>
 								<td>
 									<label for="lm_<? VAR Name ?>">
@@ -242,22 +217,18 @@
 								<td class="mod_descr"><? VAR Description ?></td>
 								<td>
 									<? IF CanBeLoadedByNetwork ?>
-										<div class="cbs2">
 											<input type="checkbox" name="loaded_by_network" id="loaded_by_net_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedByAllNetworks ?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" />
 											<? ENDIF ?>
 											<label for="loaded_by_net_<? VAR Name ?>"></label>
-										</div>
 									<? IF LoadedBySomeNetworks && !LoadedByAllNetworks ?>
 										<script type="text/javascript">document.getElementById("loaded_by_net_<? VAR Name ?>").indeterminate = true;</script>
 									<? ENDIF ?>
 								</td>
 								<td>
 									<? IF CanBeLoadedByUser ?>
-										<div class="cbs2">
 											<input type="checkbox" name="loaded_by_user" id="loaded_by_user_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedByAllNetworks ?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" />
 											<? ENDIF ?>
 											<label for="loaded_by_user_<? VAR Name ?>"></label>
-										</div>
 									<? IF LoadedBySomeUsers && !LoadedByAllUsers ?>
 										<script type="text/javascript">document.getElementById("loaded_by_user_<? VAR Name ?>").indeterminate = true;</script>								
 									<? ENDIF ?>
