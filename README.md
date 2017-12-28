@@ -26,7 +26,7 @@ This is <u>NOT</u> an Official skins from ZNC<br />
 Move all <code>share</code> folder to your znc share installations
 
 # Tested
-ZNC 1.4, 1.6.5 also work on 1.7 nightly
+ZNC 1.4, 1.6.5. 1.7 nightly (not yet) i having some changed in webadmin ZNC 1.7.x-nightly-20171223-42939c99
 
 # Credit
 <a href="//znc.in">ZNC</a>, <a href="https://getbootstrap.com/docs/3.3/">Bootstrap</a>, <a href="https://bootswatch.com/3/">Bootswatch</a>.
