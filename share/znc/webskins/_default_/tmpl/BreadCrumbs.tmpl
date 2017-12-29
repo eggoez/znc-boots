@@ -1,0 +1,7 @@
+					<? IF ModName ?>
+					<ul class="breadcrumb">
+						<li><a href="<? VAR URIPrefix TOP ?>/">ZNC</a></li>
+						<li><a href="#"><? VAR ModName ?></a></li>
+						<? IF Title && Title != *ModName ?><li class="active"><? VAR Title ?></li><? ENDIF ?>
+							<? ENDIF ?>
+					</ul>

@@ -1,0 +1,287 @@
+<? AddRow JSLoop HREF=/modfiles/global/webadmin/webadmin.js ?>
+<? AddRow CSSLoop HREF=/modfiles/global/webadmin/webadmin.css ?>
+<? INC Header.tmpl ?>
+
+<form class="form-horizontal" role="form" action="<? IF Edit ?>editnetwork<? ELSE ?>addnetwork<? ENDIF ?>" method="post">
+	<? INC _csrf_check.tmpl ?>
+	<div class="section">
+		<input type="hidden" name="submitted" value="1" />
+		<input type="hidden" name="user" value="<? VAR Username ?>" />
+		<input type="hidden" name="network" value="<? VAR Name ?>" />
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#inponet" data-toggle="tab">Network Info</a></li>
+				<li><a href="#floodprotab" data-toggle="tab">Flood Protection</a></li>
+				<li><a href="#encoding" data-toggle="tab">Character Encoding</a></li>
+				<li><a href="#ciut" data-toggle="tab">Channels</a></li>
+                <li><a href="#mudo" data-toggle="tab">Modules</a></li>
+            </ul>
+			<br />
+            <div class="tab-content">
+				<div class="tab-pane fade in active" id="inponet">
+				<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				To connect to this network from your IRC client, you can set the server password field as follows: <code><? VAR Username ?>/<? IF Edit ?><? VAR Name ?><? ELSE ?>&lt;network&gt;<? ENDIF ?>:&lt;password&gt;</code> or username field as <code><? VAR Username ?>/<? IF Edit ?><? VAR Name ?><? ELSE ?>&lt;network&gt;<? ENDIF ?></code></div>
+				<legend>Nick, AltNick, Ident, RealName, BindHost can be left empty to use the value from the user.</legend>
+				<div class="form-group">
+				<label for="inputNetworkName" class="col-sm-2 control-label">Network Name:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="inputNetworkName" name="name" value="<? VAR Name ?>" maxlength="20" placeholder="The name of the IRC network">
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputNickname" class="col-sm-2 control-label">Nickname:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="inputNickname" name="nick" value="<? VAR Nick ?>" maxlength="30" placeholder="Your nickname on IRC.">
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputAltNickname" class="col-sm-2 control-label">Alt. Nickname:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="AltNickname" name="altnick" value="<? VAR AltNick ?>" maxlength="30" placeholder="Your secondary nickname, if the first is not available on IRC.">
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputIdent" class="col-sm-2 control-label">Ident:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="inputIdent" name="ident" value="<? VAR Ident ?>" maxlength="30" placeholder="Your ident.">
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputRealname" class="col-sm-2 control-label">Realname:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="inputRealname" name="realname" value="<? VAR RealName ?>" maxlength="128" placeholder="Your real name.">
+					</div>
+				</div>
+
+				<? IF BindHostEdit ?>
+				<div class="form-group">
+				<label for="inputBindHost" class="col-sm-2 control-label">BindHost:</label>
+					<div class="col-sm-10">
+					<? IF BindHostLoop ?>
+						<select class="form-control input-sm" name="bindhost">
+							<option value="">Default</option>
+								<? LOOP BindHostLoop ?>
+									<option value="<? VAR BindHost ?>"<? IF Checked ?> selected="selected"<? ENDIF ?>><? VAR BindHost ?></option>
+								<? ENDLOOP ?>
+						</select>
+					<? ELSE ?>
+						<input class="form-control input-sm" type="text" name="bindhost" value="<? VAR BindHost ?>"/>
+					<? ENDIF ?>
+					</div>
+				</div>
+				<? ENDIF ?>
+
+				<div class="form-group">
+				<label for="inputQuit" class="col-sm-2 control-label">Quit Message:</label>
+					<div class="col-sm-10">
+						<input type="text" class="form-control input-sm" id="inputQuit" name="quitmsg" value="<? VAR QuitMsg ?>" maxlength="256" placeholder="You may define a Message shown, when you quit IRC.">
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputActive" class="col-sm-2 control-label">Active:</label>
+					<div class="col-sm-10">
+							<input type="checkbox" value="1" name="doconnect" class="cmn-toggle cmn-toggle-round-flat" id="doconnect_checkbox"<? IF IRCConnectEnabled ?> checked="checked"<? ENDIF ?> />
+							<label for="doconnect_checkbox">Connect to IRC &amp; automatically re-connect</label>
+							<span class="help-block hidden">Connect to IRC &amp; automatically re-connect</span>
+					</div>
+				</div>
+
+				<div class="form-group" id="servers_plain">
+				<label for="inputServers" class="col-sm-2 control-label">Servers of this IRC network:</label>
+					<div class="col-sm-10">
+						<textarea class="form-control input-sm" name="servers" cols="70" rows="5" id="servers_text"><? LOOP ServerLoop ?><? VAR Server ?>
+<? ENDLOOP ?></textarea>
+						<span class="help-block">One server per line, "host [[+]port] [password]", + means SSL</span>
+						<br/>
+					</div>
+				</div>
+
+				<div class="form-group" id="servers_js" style="display:none">
+				<label for="inputServers" class="col-sm-2 control-label">Servers of this IRC network:</label>
+					<div class="col-sm-10">
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Hostname</th>
+									<th>Port</th>
+									<th>SSL</th>
+									<th>Password</th>
+									<th/>
+								</tr>
+							</thead>
+							<tbody id="servers_tbody">
+							<tr>
+							</tr>
+							</tbody>
+						</table>
+							<button type="button" class="btn btn-default" value="Add" id="servers_add">Add New Server</button>
+					</div>
+				</div>
+				<script type="text/javascript">serverlist_init(jQuery);</script>
+
+				<div class="form-group">
+				<label for="inputTrustedSSL" class="col-sm-2 control-label">Trusted SSL fingerprints of this IRC network:</label>
+					<div class="col-sm-10">
+						<textarea class="form-control input-sm" name="fingerprints" rows="3"><? LOOP TrustedFingerprints ?><? VAR FP ?>
+<? ENDLOOP ?></textarea>
+						<span class="help-block">When these certificates are encountered, checks for hostname, expiration date, CA are skipped</span>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="floodprotab">
+				<div class="form-group">
+				<label for="inputFloodpro" class="col-sm-2 control-label">Flood protection:</label>
+					<div class="col-sm-10">
+							<input type="checkbox" name="floodprotection" id="floodprotection_checkbox" class="cmn-toggle cmn-toggle-round-flat" onchange="floodprotection_change();" <? IF FloodProtection ?>checked="checked"<? ENDIF ?> />
+							<label for="floodprotection_checkbox">You might enable the flood protection. This prevents `excess flood' errors, which occur, when your IRC bot is command flooded or spammed. After changing this, reconnect ZNC to server</label>
+							<span class="help-block hidden">You might enable the flood protection. This prevents `excess flood' errors, which occur, when your IRC bot is command flooded or spammed. After changing this, reconnect ZNC to server</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputFloodproRate" class="col-sm-2 control-label">Flood protection rate:</label>
+					<div class="col-sm-10">
+						<input class="form-control input-sm" type="number" name="floodrate" min="0.3" step="0.05" id="floodrate" placeholder="The number of seconds per line." <? IF FloodProtection ?> value="<? VAR FloodRate ?>" <? ELSE ?> value="1.00" disabled="disabled" <? ENDIF ?> />
+						<span class="help-block">The number of seconds per line. After changing this, reconnect ZNC to server</span>
+					</div>
+				</div>
+
+
+				<div class="form-group">
+				<label for="inputFloodproBurst" class="col-sm-2 control-label">Flood protection burst:</label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control input-sm" name="floodburst" min="1" id="inputFloodproBurst floodburst" <? IF FloodProtection ?> value="<? VAR FloodBurst ?>" <? ELSE ?> value="4" disabled="disabled" <? ENDIF ?> />
+						<span class="help-block">Defines the number of lines, which can be sent immediately. After changing this, reconnect ZNC to server</span>
+					</div>
+				</div>
+
+				<div class="form-group">
+				<label for="inputChanjoindelay" class="col-sm-2 control-label">Channel join delay:</label>
+					<div class="col-sm-10">
+						<input type="number" class="form-control input-sm" name="joindelay" min="0" id="inputChanjoindelay joindelay" value="<? VAR JoinDelay ?>" />
+						<span class="help-block">Defines the delay in seconds, until channels are joined after getting connected</span>
+					</div>
+				</div>
+
+				<script type="text/javascript">floodprotection_change();</script>
+			</div> 
+			<div class="tab-pane fade" id="encoding">
+				<div class="form-group">
+					<label for="inputChanencode" class="col-sm-2 control-label">Server encoding:</label>
+						<div class="col-sm-10">
+							<? INC encoding_settings.tmpl ?>
+						</div>
+				</div>
+			</div> 
+			<div class="tab-pane fade" id="ciut">
+				<? IF !Edit ?>
+					<span class="info">You will be able to add + modify channels here after you created the network.</span><br />
+				<? ELSE ?>
+				<table class="table table-striped table-hover table-bordered">
+					<thead>
+						<tr>
+							<td><a class="btn btn-success btn-xs" href="addchan?user=<? VAR Username ESC=URL ?>&amp;network=<? VAR Name ESC=URL ?>">Add</a></td>
+							<? IF ChannelLoop ?>
+							<td>Save</td>
+							<td>Name</td>
+							<td>CurModes</td>
+							<td>DefModes</td>
+							<td>BufferCount</td>
+							<td>Options</td>
+							<? ELSE ?>
+							<td class="text-info">&lt;- Add a channel (opens in same page)</td>
+							<? ENDIF ?>
+						</tr>
+					</thead>
+					<tbody>
+						<? LOOP ChannelLoop SORTASC=Name ?>
+						<tr>
+							<td>
+								<input type="hidden" name="channel" value="<? VAR Name ?>" /> <a href="editchan?user=<? VAR Username ESC=URL ?>&amp;network=<? VAR Network ESC=URL ?>&amp;name=<? VAR Name ESC=URL ?>" class="btn btn-warning btn-xs">Edit</a> <a href="delchan?user=<? VAR Username ESC=URL ?>&amp;network=<? VAR Network ESC=URL ?>&amp;name=<? VAR Name ESC=URL ?>" class="btn btn-danger btn-xs">Del</a>
+							</td>
+							<td class="text-center">
+									<input type="checkbox" name="save_<? VAR Name ?>" class="cmn-toggle cmn-toggle-round-flat"<? IF InConfig ?> checked="checked"<? ENDIF ?> />
+									<label for="save_<? VAR Name ?>"></label>
+							</td>
+							<td><? VAR Name ?></td>
+							<td><? VAR CurModes ?></td>
+							<td><? VAR DefModes ?></td>
+							<td><? VAR BufferCount ?></td>
+							<td><? VAR Options ?></td>
+						</tr>
+						<? ENDLOOP ?>
+					</tbody>
+				</table>
+				<? ENDIF ?>
+			</div>
+			<div class="tab-pane fade" id="mudo">
+			<table class="table table-striped table-hover">
+				<thead>
+					<tr class="info">
+						<td>Status</td>
+						<td>Name</td>
+						<td>Arguments</td>
+						<td>Description</td>
+						<td>Global</td>
+						<td>Networks</td>
+					</tr>
+				</thead>
+				<tbody>
+				<? LOOP ModuleLoop ?>
+					<tr>
+						<td>
+								<input type="checkbox" name="loadmod" id="lm_<? VAR Name ?>" class="cmn-toggle cmn-toggle-round-flat" value="<? VAR Name ?>"<? IF Checked ?> checked="checked"<? ENDIF ?><? IF Disabled ?> disabled="disabled"<? ENDIF ?> />
+								<label for="lm_<? VAR Name ?>"></label>
+						</td>
+						<td>
+						<label for="lm_<? VAR Name ?>"> <? IF Wiki ?><a href="http://wiki.znc.in/<? VAR Wiki ?>" target="_blank"><? VAR Name ?></a> <? ELSE ?> <? VAR Name ?> <? ENDIF ?></label>
+						</td>
+						<td>
+							<? IF Disabled ?>
+							<? VAR Args ?>
+							<? ELSE ?>
+							<input class="form-control input-sm" class="third" type="text" name="modargs_<? VAR Name ?>" value="<? VAR Args ?>"
+							<? IF !HasArgs ?> disabled="disabled"<? ENDIF ?>
+							<? IF ArgsHelpText ?> data-toggle="tooltip" data-placement="top" data-original-title="<? VAR ArgsHelpText ?>"<? ENDIF ?> autocomplete="off"/>
+							<? ENDIF ?>
+						</td>
+						<td><? VAR Description ?></td>
+						<td>
+							<? IF CanBeLoadedGlobally ?>
+									<input type="checkbox" name="loaded_globally" id="loaded_globally_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedGloabally?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" /> <? ENDIF ?>
+									<label for="loaded_globally_<? VAR Name ?>"></label>
+							<? ENDIF ?>
+						</td>
+						<td>
+							<? IF CanBeLoadedByUser ?>
+									<input type="checkbox" name="loaded_by_user" id="loaded_by_user_<? VAR Name ?>" value="<? VAR Name ?>"<? IF LoadedByUser ?> checked="checked"  <? ENDIF ?> class="sr-only" disabled="disabled" /> <? ENDIF ?>
+									<label for="loaded_by_user_<? VAR Name ?>"></label>
+							<? ENDIF ?>
+						</td>
+					</tr>
+				<? ENDLOOP ?>
+				</tbody>
+			</table>
+			</div> 
+			<div class="tab-pane fade" id="othermods">
+			<? LOOP EmbeddedModuleLoop ?>
+				<? IF Embed ?>
+					<h3>Module <? VAR ModName ?></h3>
+					<? INC *Embed ?>
+				<? ENDIF ?>
+			<? ENDLOOP ?>
+			</div>
+			</div>
+
+			<div class="submitline text-right">
+			<input class="btn btn-danger" type="reset" value="Reset">
+			<input class="btn btn-default" type="submit" name="submit_return" value="<? IF Edit ?>Save<? ELSE ?>Add Network<? ENDIF ?> and return" />
+			<input class="btn btn-primary" type="submit" name="submit_continue" value="<? IF Edit ?>Save<? ELSE ?>Add Network<? ENDIF ?> and continue" />
+			</div>
+</form>
+<? INC Footer.tmpl ?>

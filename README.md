@@ -26,7 +26,10 @@ This is <u>NOT</u> an Official skins from ZNC<br />
 Move all <code>share</code> folder to your znc share installations
 
 # Tested
-ZNC 1.4, 1.6.5. 1.7 nightly (not yet) i having some changed in webadmin ZNC 1.7.x-nightly-20171223-42939c99
+ZNC 1.4, 1.6.5. <br />
+1.7 nightly after tarbar <b>znc-git-2017-12-21.tar.gz</b> on git 1.7.x-nightly-20171223-42939c99 isn't recommended, cz i'm see webadmin was changed on <a href="https://github.com/znc/znc/issues/983">listbihost</a> (removed) and <a href="https://github.com/znc/znc/commit/42939c998f7eb73629d4fd2f13c27d2a6fb09dc9>i18n</a> supported!<br />
+And i think this will stag on 1.7 stable, <a href="https://wiki.znc.in/ChangeLog/1.7.0">see 1.7 changelog</a>! Many have changed! =)
+
 
 # Credit
 <a href="//znc.in">ZNC</a>, <a href="https://getbootstrap.com/docs/3.3/">Bootstrap</a>, <a href="https://bootswatch.com/3/">Bootswatch</a>.

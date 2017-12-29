@@ -1,0 +1,28 @@
+<? INC Header.tmpl ?>
+
+<div class="section">
+	<h3>Confirm Delete User <? VAR Username ?></h3>
+	<div class="sectionbg">
+		<div class="sectionbody">
+			<div class="subsection">
+				<p class="text-danger">Are you sure you want to delete user <b><? VAR Username ?></b>?</p>
+				<div class="row">
+				<div class="col-sm-1">
+				<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>deluser" method="post">
+					<? INC _csrf_check.tmpl ?>
+					<input type="hidden" name="submitted" value="1" />
+					<input type="hidden" name="user" value="<? VAR Username ?>" />
+					<div class="yesnobutton"><input class="btn btn-danger btn-sm btn-block" type="submit" value="Yes" /></div>
+				</form>
+				</div>
+				<div class="col-sm-1">
+				<form action="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>listusers" method="get">
+					<div class="yesnobutton"><input class="btn btn-primary btn-sm btn-block" type="submit" value="No" /></div>
+				</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<? INC Footer.tmpl ?>

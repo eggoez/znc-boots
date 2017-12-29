@@ -1,0 +1,57 @@
+				<? IF LoggedIn ?>
+				<ul class="nav navbar-nav navbar-right hidden-xs hidden-md hidden-sm">
+					<li class="dropdown">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <? VAR SessionUser ?> <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+                        <li>
+                            <div class="navbar-login">
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <p class="text-center">
+                                            <span class="glyphicon glyphicon-user icon-size text-info"></span>
+                                        </p>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <p class="text-left"><strong>Logged as: <span class="text-success"><? VAR SessionUser ?></span></strong></p>
+                                        <p class="text-left text-muted small">IP Address: <a href="http://whatismyipaddress.com/ip/<? VAR SessionIP ?>" target="_blank" class="unifo"><? VAR SessionIP ?></a></p>
+                                        <p class="text-left">
+                                            <a href="<? VAR URIPrefix TOP ?>/mods/global/webadmin/edituser" class="btn btn-primary btn-block btn-sm">Edit Settings</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <div class="navbar-login navbar-login-session">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <p>
+                                            <a href="/logout" class="btn btn-danger btn-block">Logout</a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+					</li>
+					</ul>
+
+				<ul class="nav navbar-nav navbar-right hidden-lg"><li class="active"><a href="<? VAR URIPrefix TOP ?>/logout">Logout <? VAR SessionUser DEFAULT="-Guest-" ?></a></li></ul>
+				
+				<? ELSE IF !ModName && PageName == "login" ?>
+			<!--	<span class="logoutbox">&nbsp;</span> -->
+				<? ELSE ?>
+				
+				<form class="navbar-form navbar-right" action="<? VAR URIPrefix TOP ?>/login" method="post">
+					<div class="form-group loginbox">
+						<input type="hidden" name="submitted" value="1" />
+						<input class="form-control" placeholder="User" type="text" name="user">
+						<input class="form-control" placeholder="Password" type="password" name="pass">
+					</div>
+					<button type="submit" class="submit btn btn-primary">Login</button>
+				</form>
+				<ul class="nav navbar-nav navbar-right">
+				<li><a href="http://whatismyipaddress.com/ip/<? VAR SessionIP ?>" target="_blank" class="unifo"><? VAR SessionUser DEFAULT="Guest" ?> (<? VAR SessionIP ?>)</a></li>
+				</ul>
+				<? ENDIF ?>

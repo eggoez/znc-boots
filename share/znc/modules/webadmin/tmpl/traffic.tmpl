@@ -1,0 +1,86 @@
+<? INC Header.tmpl ?>
+	<h3>Information</h3>
+		<div class="sectionbody">
+			<table class="table table-striped table-hover ">
+				<tbody>
+					<tr>
+						<th>Uptime</th>
+						<td><? VAR Uptime ?></td>
+					</tr>
+				<? IF IsAdmin ?>
+					<tr>
+						<th>Total Users</th>
+						<td><? VAR TotalUsers ?></td>
+					</tr>
+                    <tr>
+						<th>Total Networks</th>
+						<td><? VAR TotalNetworks ?></td>
+					</tr>
+					<tr>
+						<th>Attached Networks</th>
+						<td><? VAR AttachedNetworks ?></td>
+					</tr>
+					<tr>
+						<th>Total Client Connections</th>
+						<td><? VAR TotalCConnections ?></td>
+					</tr>
+					<tr>
+						<th>Total IRC Connections</th>
+						<td><? VAR TotalIRCConnections ?></td>
+					</tr>
+				<? ENDIF ?>
+				</tbody>
+			</table>
+		</div>
+						
+<? IF IsAdmin && TrafficLoop ?>
+            <div class="input-group custom-search-form">
+				<input class="form-control" id="system-search" name="q" placeholder="Find user..." required>
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+             </div>
+<hr />
+		<table class="table table-bordered table-hover table-striped table-list-search">
+			<thead>
+					<tr class="info">
+						<td>Username</td>
+						<td>In</td>
+						<td>Out</td>
+						<td>Total</td>
+					</tr>
+				</thead>
+				<tbody>
+				<? LOOP TrafficLoop SORTASC=Username ?>
+					<tr>
+						<td><? VAR Username ?></td>
+						<td><? VAR In ?></td>
+						<td><? VAR Out ?></td>
+						<td><? VAR Total ?></td>
+					</tr>
+					<? IF __LAST__ ?>
+					<tr class="danger">
+						<td>User Total</td>
+						<td><? VAR UserIn TOP ?></td>
+						<td><? VAR UserOut TOP ?></td>
+						<td><? VAR UserTotal TOP ?></td>
+					</tr>
+					<tr class="warning">
+						<td>ZNC Total</td>
+						<td><? VAR ZNCIn TOP ?></td>
+						<td><? VAR ZNCOut TOP ?></td>
+						<td><? VAR ZNCTotal TOP ?></td>
+					</tr>
+					<tr class="success">
+						<td>Grand Total</td>
+						<td><? VAR AllIn TOP ?></td>
+						<td><? VAR AllOut TOP ?></td>
+						<td><? VAR AllTotal TOP ?></td>
+					</tr>
+					<? ENDIF ?>
+				<? ENDLOOP ?>
+				</tbody>
+			</table>
+		<? ENDIF ?>
+<script type="text/javascript">$(document).ready(function(){var e=$(".list-group-item.active");$("#system-search").keyup(function(){var e=this;var t=$(".table-list-search tbody");var n=$(".table-list-search tbody tr");$(".search-sf").remove();n.each(function(r,i){var s=$(i).text().toLowerCase();var o=$(e).val().toLowerCase();if(o!=""){$(".search-query-sf").remove();t.prepend('<!--<tr class="search-query-sf success"><td colspan="6">Match for <b>'+$(e).val()+'</b></td></tr>-->')}else{$(".search-query-sf").remove()}if(s.indexOf(o)==-1){n.eq(r).hide()}else{$(".search-sf").remove();n.eq(r).show()}});if(n.children(":visible").length==0){t.append('<tr class="search-sf danger"><td class="text-danger" colspan="6">No match found for <code>'+$(e).val()+'</code></td></tr>')}})})</script>
+<? INC Footer.tmpl ?>

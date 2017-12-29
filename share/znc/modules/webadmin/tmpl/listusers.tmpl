@@ -1,0 +1,46 @@
+<? INC Header.tmpl ?>
+
+		<?IF !UserLoop?>
+			<div class="alert alert-info alert-dismissible" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				There are no users defined. Click <a href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser">here</a> if you would like to add one.
+			</div>
+		<?ELSE?>
+		<div class="input-group custom-search-form">
+				<input class="form-control" id="system-search" name="q" placeholder="Find user..." required>
+				<span class="input-group-btn">
+					<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+				</span>
+             </div>
+			 <hr class="hidden-sm hidden-md"/>
+				<table class="table table-bordered table-hover table-striped table-list-search">
+					<thead>
+					<tr>
+						<td><a class="btn btn-success btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser">Add</a></td>
+						<td>Username</td>
+                        <td>Networks</td>
+						<td>Clients</td>
+					</tr>
+					</thead>
+
+					<tbody>
+			<?LOOP UserLoop SORTASC=Username ?>
+					<tr class="<?IF __EVEN__?>evenrow<?ELSE?>oddrow<?ENDIF?>">
+						<td>
+							<span class="nowrap">
+								<a class="btn btn-primary btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>edituser?user=<?VAR Username ESC=URL?>">Edit</a>
+								<a class="btn btn-warning btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>adduser?clone=<? VAR Username ESC=URL ?>" alt="Clone <? VAR Username ESC=URL ?>">Clone</a>
+								<? IF !IsSelf ?><a class="btn btn-danger btn-xs" href="<? VAR URIPrefix TOP ?><? VAR ModPath TOP ?>deluser?user=<?VAR Username ESC=URL?>">Delete</a><? ENDIF ?>
+							</span>
+						</td>
+						<td><? VAR Username ?></td>
+                        <td><? VAR Networks ?></td>
+						<td><? VAR Clients ?></td>
+					</tr>
+					<?ENDLOOP?>
+					</tbody>
+				</table>
+			<?ENDIF?>
+<script type="text/javascript">$(document).ready(function(){var e=$(".list-group-item.active");$("#system-search").keyup(function(){var e=this;var t=$(".table-list-search tbody");var n=$(".table-list-search tbody tr");$(".search-sf").remove();n.each(function(r,i){var s=$(i).text().toLowerCase();var o=$(e).val().toLowerCase();if(o!=""){$(".search-query-sf").remove();t.prepend('<tr class="search-query-sf success"><td colspan="6">Match for <b>'+$(e).val()+'</b></td></tr>')}else{$(".search-query-sf").remove()}if(s.indexOf(o)==-1){n.eq(r).hide()}else{$(".search-sf").remove();n.eq(r).show()}});if(n.children(":visible").length==0){t.append('<tr class="search-sf danger"><td class="text-muted" colspan="6">No match found for <code>'+$(e).val()+'</code></td></tr>')}})})</script>
+
+<? INC Footer.tmpl ?>
